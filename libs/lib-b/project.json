@@ -1,0 +1,50 @@
+{
+  "root": "libs/lib-b",
+  "sourceRoot": "libs/lib-b/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/lib-b",
+        "main": "libs/lib-b/src/index.ts",
+        "tsConfig": "libs/lib-b/tsconfig.lib.json",
+        "assets": ["libs/lib-b/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/lib-b/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/lib-b"],
+      "options": {
+        "jestConfig": "libs/lib-b/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "package": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/lib-b",
+        "tsConfig": "libs/lib-b/tsconfig.lib.json",
+        "packageJson": "libs/lib-b/package.json",
+        "main": "libs/lib-b/src/index.ts",
+        "assets": ["libs/lib-b/*.md"]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "commitMessageFormat": "chore(${projectName}): release version ${version}"
+      }
+    }
+  },
+  "tags": []
+}

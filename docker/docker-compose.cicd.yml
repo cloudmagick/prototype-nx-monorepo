@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  build:
+    image: brutalsimplicity/prototype-nx-monorepo:latest
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.build
+
+  test:
+    image: brutalsimplicity/prototype-nx-monorepo:latest
+    depends_on:
+      - build
+    command: 'npm run test'

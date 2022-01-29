@@ -1,0 +1,42 @@
+{
+  "root": "libs/lib-c",
+  "sourceRoot": "libs/lib-c/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/lib-c",
+        "main": "libs/lib-c/src/index.ts",
+        "tsConfig": "libs/lib-c/tsconfig.lib.json",
+        "assets": ["libs/lib-c/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": { "lintFilePatterns": ["libs/lib-c/**/*.ts"] }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/lib-c"],
+      "options": {
+        "jestConfig": "libs/lib-c/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "package": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/lib-c",
+        "tsConfig": "libs/lib-c/tsconfig.lib.json",
+        "packageJson": "libs/lib-c/package.json",
+        "main": "libs/lib-c/src/index.ts",
+        "assets": ["libs/lib-c/*.md"]
+      }
+    }
+  },
+  "tags": []
+}
