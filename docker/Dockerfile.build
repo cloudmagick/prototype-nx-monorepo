@@ -1,4 +1,4 @@
-FROM brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
+FROM brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0 as build
 
 COPY . /workspace
 

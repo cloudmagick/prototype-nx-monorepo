@@ -16,7 +16,9 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
-      "options": { "lintFilePatterns": ["libs/lib-c/**/*.ts"] }
+      "options": {
+        "lintFilePatterns": ["libs/lib-c/**/*.ts"]
+      }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
@@ -35,6 +37,12 @@
         "packageJson": "libs/lib-c/package.json",
         "main": "libs/lib-c/src/index.ts",
         "assets": ["libs/lib-c/*.md"]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "commitMessageFormat": "chore(${projectName}): release version ${version}"
       }
     }
   },

@@ -3,6 +3,7 @@
   "projects": {
     "lib-a": "libs/lib-a",
     "lib-b": "libs/lib-b",
-    "lib-c": "libs/lib-c"
+    "lib-c": "libs/lib-c",
+    "service-a": "services/service-a"
   }
 }

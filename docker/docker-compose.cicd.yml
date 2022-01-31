@@ -8,6 +8,8 @@ services:
 
   test:
     image: brutalsimplicity/prototype-nx-monorepo:latest
+
+    # This ensures that the `build` image is built if this is run on its own
     depends_on:
       - build
     command: 'npm run test'
