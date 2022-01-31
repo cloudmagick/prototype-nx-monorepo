@@ -15,9 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cloud-magix/lib-a": ["libs/lib-a/src/index.ts"],
-      "@cloud-magix/lib-b": ["libs/lib-b/src/index.ts"],
-      "@cloudmagick": ["libs/lib-c/src/index.ts"]
+      "@cloudmagick/lib-a": ["libs/lib-a/src/index.ts"],
+      "@cloudmagick/lib-b": ["libs/lib-b/src/index.ts"],
+      "@cloudmagick/lib-c": ["libs/lib-c/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
