@@ -1,0 +1,38 @@
+# yaml-language-server: $schema = https://json.schemastore.org/circleciconfig.json
+version: 2.1
+
+jobs:
+  generate_assumed_role_credentials:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: medium
+    steps:
+      - checkout
+      - run:
+          name: Generate Assumed Role Credentials
+          command: |
+            env >> .env
+            mkdir .secrets
+            docker run --env-file .env brutalsimplicity/cicd-tools:latest aws-assume --role $DEPLOYMENT_ROLE -e >> .secrets/.env
+
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - .secrets
+
+      - run:
+          name: Verify Credentials
+          attach_workspace:
+            at: /tmp/workspace
+          working_directory: /tmp/workspace
+          command: |
+            cat .secrets/.env >> $BASH_ENV
+            aws sts get-caller-identity
+            ls .
+
+workflows:
+  build:
+    jobs:
+      - generate_assumed_role_credentials:
+          name: Assume AWS Deployment Role
+          context: cloudmagick

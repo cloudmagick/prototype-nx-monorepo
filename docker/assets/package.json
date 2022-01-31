@@ -9,9 +9,6 @@
     "postinstall": "node tools/scripts/postinstall.js"
   },
   "private": true,
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-angular": "^16.0.0",
