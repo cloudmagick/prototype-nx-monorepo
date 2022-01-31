@@ -22,13 +22,10 @@ jobs:
 
       - run:
           name: Verify Credentials
-          attach_workspace:
-            at: /tmp/workspace
-          working_directory: /tmp/workspace
           command: |
             cat .secrets/.env >> $BASH_ENV
             aws sts get-caller-identity
-            ls .
+            ls -al
 
 workflows:
   build:
