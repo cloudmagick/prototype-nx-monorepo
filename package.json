@@ -8,7 +8,7 @@
     "test": "nx run-many --target=test --all",
     "preinstall": "npm run npmrc",
     "postinstall": "node tools/scripts/update-release-container-dependencies.js",
-    "release": "nx run-many --target=build -all --noVerify --push",
+    "release": "nx run-many --target=version --all --noVerify --push",
     "npmrc": "node tools/scripts/configure-npmrc.js"
   },
   "private": true,
