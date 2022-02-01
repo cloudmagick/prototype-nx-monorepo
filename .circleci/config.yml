@@ -3,17 +3,15 @@ version: 2.1
 
 jobs:
   create_assumed_role_credentials:
-    machine:
-      image: ubuntu-2004:202101-01
-    resource_class: medium
+    docker:
+      - image: brutalsimplicity/cicd-container:v1.0.0
     steps:
       - checkout
       - run:
           name: Generate Assumed Role Credentials
           command: |
-            env >> .env
             mkdir .secrets
-            docker run --env-file .env brutalsimplicity/cicd-tools:latest aws-assume --role $DEPLOYMENT_ROLE -e >> .secrets/.env
+            aws-assume --role $DEPLOYMENT_ROLE -e >> .secrets/.env
 
       # This will persist credentials for use in subsequent workflows
       - persist_to_workspace:
@@ -28,9 +26,8 @@ jobs:
             aws sts get-caller-identity
 
   build_project:
-    machine:
-      image: ubuntu-2004:202101-01
-    resource_class: medium
+    docker:
+      - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
     steps:
       - checkout
       - attach_workspace:
@@ -38,13 +35,13 @@ jobs:
       - run:
           name: Build
           command: |
-            cat /tmp/workspace/.secrets/.env >> $BASH_ENV
-            docker-compose -f docker/docker-compose.cicd.yml build
+            $(cat /tmp/workspace/.secrets/.env)
+            npm ci
+            npm run build
 
   test_project:
-    machine:
-      image: ubuntu-2004:202101-01
-    resource_class: medium
+    docker:
+      - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
     steps:
       - checkout
       - attach_workspace:
@@ -52,11 +49,37 @@ jobs:
       - run:
           name: Build
           command: |
-            cat /tmp/workspace/.secrets/.env >> $BASH_ENV
-            docker-compose -f docker/docker-compose.cicd.yml run test
+            $(cat /tmp/workspace/.secrets/.env)
+            npm ci
+            npm run build
+      - run:
+          name: Test
+          command: |
+            $(cat /tmp/workspace/.secrets/.env)
+            npm run test
+
+  release_project:
+    docker:
+      - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace/
+      - run:
+          name: Build
+          command: |
+            $(cat /tmp/workspace/.secrets/.env)
+            npm ci
+            npm run build
+      - run:
+          name: Release
+          command: |
+            $(cat /tmp/workspace/.secrets/.env)
+            n
+            npm run release
 
 workflows:
-  build:
+  Release:
     jobs:
       - create_assumed_role_credentials:
           name: Assume AWS Deployment Role
@@ -72,4 +95,10 @@ workflows:
           requires:
             - Build Project
           name: Test Project
+          context: cloudmagick
+
+      - release_project:
+          requires:
+            - Test Project
+          name: Release Project
           context: cloudmagick

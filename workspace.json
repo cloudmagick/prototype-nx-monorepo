@@ -4,6 +4,7 @@
     "lib-a": "libs/lib-a",
     "lib-b": "libs/lib-b",
     "lib-c": "libs/lib-c",
-    "service-a": "services/service-a"
+    "service-a": "services/service-a",
+    "release-container": "docker/release-container"
   }
 }

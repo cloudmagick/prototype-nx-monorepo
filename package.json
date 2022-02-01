@@ -4,9 +4,12 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
-    "build": "nx run-many --target=build --all",
+    "build": "nx run-many --target=build --all --exclude=release-container",
     "test": "nx run-many --target=test --all",
-    "postinstall": "node tools/scripts/postinstall.js"
+    "preinstall": "npm run npmrc",
+    "postinstall": "node tools/scripts/update-release-container-dependencies.js",
+    "release": "nx run-many --target=version --all --dryRun",
+    "npmrc": "node tools/scripts/configure-npmrc.js"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +51,21 @@
     "commitizen": {
       "path": "./node_modules/@digitalroute/cz-conventional-changelog-for-jira",
       "jiraOptional": true
+    },
+    "configure-npmrc": {
+      "codeArtifact": {
+        "registries": [
+          {
+            "repository": "npm-release",
+            "domain": "cloudmagick",
+            "domainOwner": "868441259173",
+            "scopes": [
+              "cloudmagick"
+            ],
+            "region": "us-east-1"
+          }
+        ]
+      }
     }
   },
   "commitlint": {

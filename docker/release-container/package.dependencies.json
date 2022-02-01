@@ -1,0 +1,35 @@
+{
+  "name": "prototype-nx-release-container",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "dependencies": null,
+  "scripts": {
+    "npmrc": "*"
+  },
+  "devDependencies": {
+    "@jscutlery/semver": "*",
+    "@nrwl/cli": "*",
+    "@nrwl/devkit": "*",
+    "@nrwl/eslint-plugin-nx": "*",
+    "@nrwl/jest": "*",
+    "@nrwl/js": "*",
+    "@nrwl/linter": "*",
+    "@nrwl/node": "*",
+    "@nrwl/tao": "*",
+    "@nrwl/workspace": "*",
+    "@swc/cli": "*",
+    "@swc/core": "*",
+    "@swc/helpers": "*",
+    "@swc/jest": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  },
+  "config": null,
+  "commitlint": null
+}

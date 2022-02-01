@@ -1,6 +1,0 @@
-FROM brutalsimplicity/cicd-container:v1.0.0
-
-COPY assets/ /workspace
-
-WORKDIR /workspace
-RUN npm ci
