@@ -2,7 +2,7 @@
 version: 2.1
 
 jobs:
-  create_assumed_role_credentials:
+  release:
     docker:
       - image: brutalsimplicity/cicd-container:v1.0.0
     steps:
@@ -10,28 +10,8 @@ jobs:
       - run:
           name: Generate Assumed Role Credentials
           command: |
-            mkdir .secrets
-            aws-assume --role $DEPLOYMENT_ROLE -e >> .secrets/.env
-
-      # This will persist credentials for use in subsequent workflows
-      - persist_to_workspace:
-          root: '.'
-          paths:
-            - .secrets
-
-      - run:
-          name: Verify Credentials
-          command: |
-            cat .secrets/.env >> $BASH_ENV
-            aws sts get-caller-identity
-
-  release:
-    docker:
-      - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/workspace/
+            mkdir -p /tmp/workspace/.secrets
+            aws-assume --role $DEPLOYMENT_ROLE -e >> /tmp/workspace/.secrets/.env
       - run:
           name: Build
           command: |
@@ -60,12 +40,6 @@ jobs:
 workflows:
   Release:
     jobs:
-      - create_assumed_role_credentials:
-          name: Assume AWS Deployment Role
-          context: cloudmagick
-
       - release:
-          requires:
-            - Assume AWS Deployment Role
           name: Build, Test, and Release Project
           context: cloudmagick
