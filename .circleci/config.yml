@@ -43,6 +43,14 @@ jobs:
           command: |
             $(cat /tmp/workspace/.secrets/.env)
             npm run test
+      - add_ssh_keys:
+          fingerprints:
+            - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
+      - run:
+          name: Configure Git
+          command: |
+            git config --global user.name "circleci-deployuser"
+            git config --global user.email "kory.taborn@gmail.com"
       - run:
           name: Release
           command: |
