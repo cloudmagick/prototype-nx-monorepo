@@ -25,21 +25,7 @@ jobs:
             cat .secrets/.env >> $BASH_ENV
             aws sts get-caller-identity
 
-  build_project:
-    docker:
-      - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/workspace/
-      - run:
-          name: Build
-          command: |
-            $(cat /tmp/workspace/.secrets/.env)
-            npm ci
-            npm run build
-
-  test_project:
+  release:
     docker:
       - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
     steps:
@@ -57,25 +43,10 @@ jobs:
           command: |
             $(cat /tmp/workspace/.secrets/.env)
             npm run test
-
-  release_project:
-    docker:
-      - image: brutalsimplicity/amazonlinux2-buildcontainer:v1.0.0
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/workspace/
-      - run:
-          name: Build
-          command: |
-            $(cat /tmp/workspace/.secrets/.env)
-            npm ci
-            npm run build
       - run:
           name: Release
           command: |
             $(cat /tmp/workspace/.secrets/.env)
-            n
             npm run release
 
 workflows:
@@ -85,20 +56,8 @@ workflows:
           name: Assume AWS Deployment Role
           context: cloudmagick
 
-      - build_project:
+      - release:
           requires:
             - Assume AWS Deployment Role
-          name: Build Project
-          context: cloudmagick
-
-      - test_project:
-          requires:
-            - Build Project
-          name: Test Project
-          context: cloudmagick
-
-      - release_project:
-          requires:
-            - Test Project
-          name: Release Project
+          name: Build, Test, and Release Project
           context: cloudmagick
