@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  project:
+  build:
     image: brutalsimplicity/prototype-nx-monorepo:latest
     build:
       context: ../

@@ -2,7 +2,7 @@
 version: 2.1
 
 jobs:
-  generate_assumed_role_credentials:
+  create_assumed_role_credentials:
     machine:
       image: ubuntu-2004:202101-01
     resource_class: medium
@@ -15,6 +15,7 @@ jobs:
             mkdir .secrets
             docker run --env-file .env brutalsimplicity/cicd-tools:latest aws-assume --role $DEPLOYMENT_ROLE -e >> .secrets/.env
 
+      # This will persist credentials for use in subsequent workflows
       - persist_to_workspace:
           root: '.'
           paths:
@@ -25,11 +26,50 @@ jobs:
           command: |
             cat .secrets/.env >> $BASH_ENV
             aws sts get-caller-identity
-            ls -al
+
+  build_project:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace/
+      - run:
+          name: Build
+          command: |
+            cat /tmp/workspace/.secrets/.env >> $BASH_ENV
+            docker-compose -f docker/docker-compose.cicd.yml build
+
+  test_project:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace/
+      - run:
+          name: Build
+          command: |
+            cat /tmp/workspace/.secrets/.env >> $BASH_ENV
+            docker-compose -f docker/docker-compose.cicd.yml run test
 
 workflows:
   build:
     jobs:
-      - generate_assumed_role_credentials:
+      - create_assumed_role_credentials:
           name: Assume AWS Deployment Role
+          context: cloudmagick
+
+      - build_project:
+          requires:
+            - Assume AWS Deployment Role
+          name: Build Project
+          context: cloudmagick
+
+      - test_project:
+          requires:
+            - Build Project
+          name: Test Project
           context: cloudmagick
