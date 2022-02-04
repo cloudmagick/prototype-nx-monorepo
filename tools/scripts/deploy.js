@@ -1,6 +1,7 @@
 const { EOL } = require('os');
 const { exit } = require('process');
 const { getTagParts, runCommand } = require('./utils');
+const fs = require('fs');
 
 const main = async () => {
   const isCi = process.env['CI'];
