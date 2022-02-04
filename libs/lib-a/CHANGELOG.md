@@ -98,6 +98,16 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 ### Features
 
 * initial commit ([375e0c3](https://github/cloudmagick/prototype-nx-monorepo/commit/375e0c3faadd165819a5272d760a2dec21f5bc00))
+* **test:** wip ([cf0476b](https://github/cloudmagick/prototype-nx-monorepo/commit/cf0476b4d97c7a61314288fe4b4ba7820292656e))
+
+
+
+# 0.1.0 (2022-02-04)
+
+
+### Features
+
+* initial commit ([375e0c3](https://github/cloudmagick/prototype-nx-monorepo/commit/375e0c3faadd165819a5272d760a2dec21f5bc00))
 
 
 
