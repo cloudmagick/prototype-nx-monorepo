@@ -1,5 +1,3 @@
-import { monitorEventLoopDelay } from 'perf_hooks';
-
 const child = require('child_process');
 const { exit } = require('process');
 
