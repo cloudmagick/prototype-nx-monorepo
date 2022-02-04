@@ -52,7 +52,7 @@ jobs:
           name: Deploy
           command: |
             $(cat /tmp/workspace/.secrets/.env)
-            GIT_TAG=<< pipeline.git.tag >> npm run deploy
+            GIT_TAG=<< pipeline.git.tag >> npm run ci:deploy
 
 workflows:
   Semantic_Version_Release:

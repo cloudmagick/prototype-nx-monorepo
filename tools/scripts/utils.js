@@ -1,9 +1,11 @@
+import { monitorEventLoopDelay } from 'perf_hooks';
+
 const child = require('child_process');
 const { exit } = require('process');
 
 const tagParseRegex =
   /^(?<service>.+)[-.+:](?<version>\d+\.\d+\.\d+)[-.+:]*(?<suffix>.*$)/;
-export const getTagParts = (tag) => {
+module.exports.getTagParts = (tag) => {
   const match = tag.match(tagParseRegex);
   if (match) {
     return {
@@ -16,8 +18,8 @@ export const getTagParts = (tag) => {
 
 const versionTagParseRegex =
   /^(?<version>\d+\.\d+\.\d+\.)[-.+:]*(?<suffix>.*$)/;
-export const getVersionTag = (tag) => {
-  const match = tag.match(tagParseRegex);
+module.exports.getVersionTag = (tag) => {
+  const match = tag.match(versionTagParseRegex);
   if (match) {
     return {
       version: match.groups.version,
@@ -26,7 +28,7 @@ export const getVersionTag = (tag) => {
   }
 };
 
-export const runCommand = async (command) => {
+module.exports.runCommand = async (command) => {
   const promise = new Promise((resolve, reject) => {
     const proc = child.exec(command, (error, stdout, stderr) => {
       if (error) {
