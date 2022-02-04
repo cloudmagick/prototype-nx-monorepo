@@ -80,4 +80,4 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /.*?v\d+\.\d+\.\d+[-+_.][a-z0-9]+.*/
+              only: /.*\d+\.\d+\.\d+[-+_.][a-z0-9]+.*/

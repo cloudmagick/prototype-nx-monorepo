@@ -2,7 +2,7 @@ const child = require('child_process');
 const { exit } = require('process');
 
 const tagParseRegex =
-  /^(?<service>.+)[-.+:](?<version>v\d+\.\d+\.\d+)[-.+:]*(?<suffix>.*$)/;
+  /^(?<service>.+)[-.+:](?<version>\d+\.\d+\.\d+)[-.+:]*(?<suffix>.*$)/;
 export const getTagParts = (tag) => {
   const match = tag.match(tagParseRegex);
   if (match) {
@@ -15,7 +15,7 @@ export const getTagParts = (tag) => {
 };
 
 const versionTagParseRegex =
-  /^(?<version>v\d+\.\d+\.\d+\.)[-.+:]*(?<suffix>.*$)/;
+  /^(?<version>\d+\.\d+\.\d+\.)[-.+:]*(?<suffix>.*$)/;
 export const getVersionTag = (tag) => {
   const match = tag.match(tagParseRegex);
   if (match) {
