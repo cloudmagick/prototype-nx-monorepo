@@ -45,3 +45,7 @@ module.exports.runCommand = async (command) => {
     exit(1);
   }
 };
+
+module.exports.log = (obj) => {
+  console.log(inspect(obj, false, null, true));
+};

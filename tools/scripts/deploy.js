@@ -1,6 +1,6 @@
 const { EOL } = require('os');
 const { exit } = require('process');
-const { getTagParts, runCommand } = require('./utils');
+const { getTagParts, runCommand, log } = require('./utils');
 const fs = require('fs');
 
 const main = async () => {
@@ -35,10 +35,15 @@ const main = async () => {
     exit(1);
   }
 
+  log({
+    tag: gitTag,
+    parts,
+  });
   const { service, version, suffix } = parts;
-
   const environmentKeys = Object.keys(deployEnvironments);
-  const deployEnvironment = environmentKeys.find((key) => suffix.contains(key));
+  const deployEnvironment = suffix
+    ? environmentKeys.find((key) => suffix.indexOf(key) > -1)
+    : null;
   if (!deployEnvironment) {
     console.warn(
       [

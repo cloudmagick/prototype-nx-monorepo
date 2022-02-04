@@ -88,10 +88,6 @@ const createNpmrc = (npmrc) => {
   fs.writeFileSync('.npmrc', npmrcString);
 };
 
-const log = (obj) => {
-  console.log(inspect(obj, false, null, true));
-};
-
 const main = () => {
   const packageJson = JSON.parse(
     fs.readFileSync('package.json', { encoding: 'utf8' }),
