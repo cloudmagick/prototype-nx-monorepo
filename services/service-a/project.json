@@ -34,13 +34,13 @@
       "options": {
         "commitMessageFormat": "chore(${projectName}): release version ${version}",
         "baseBranch": "main",
-        "postTargets": ["service-a:tagForDeployment"]
+        "postTargets": ["service-a:tagForRelease"]
       }
     },
-    "tagForDeployment": {
+    "tagForRelease": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "git tag ${project}-${version}+$DEPLOY_ENVIRONMENT && git push --tags"
+        "command": "git tag ${project}-${version}+$RELEASE_TO && git push --tags"
       }
     },
     "publish": {

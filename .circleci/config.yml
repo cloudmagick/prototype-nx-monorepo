@@ -39,7 +39,7 @@ jobs:
                 name: Release
                 command: |
                   $(cat /tmp/workspace/.secrets/.env)
-                  npm run release
+                  RELEASE_TO=dev npm run release
 
   deploy:
     docker:
@@ -55,11 +55,14 @@ jobs:
             GIT_TAG=<< pipeline.git.tag >> npm run deploy
 
 workflows:
-  Build_Test:
+  Semantic_Version_Release:
     jobs:
       - build_test_release:
           name: Build and Test Project
           context: cloudmagick
+          filters:
+            branches:
+              ignore: main
 
       - build_test_release:
           name: Build, Test, and Release Project
@@ -68,6 +71,8 @@ workflows:
             branches:
               only: main
 
+  Semantic_Version_Deploy:
+    jobs:
       - deploy:
           name: Deploy << pipeline.git.tag >>
           context: cloudmagick
