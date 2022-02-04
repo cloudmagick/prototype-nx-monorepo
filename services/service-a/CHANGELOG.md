@@ -62,6 +62,16 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 
 
+# 0.1.0 (2022-02-04)
+
+
+### Features
+
+* adds service and updates docker ci build ([4c3ea7f](https://github/cloudmagick/prototype-nx-monorepo/commit/4c3ea7f5e9b5bc02bb3188f5c2e9550151b1afa4))
+* **cdk:** adds cdk ([db0da44](https://github/cloudmagick/prototype-nx-monorepo/commit/db0da442be547cbc05059eb2c6d7b3313245e8a3))
+
+
+
 ## [0.1.1](https://github/cloudmagick/prototype-nx-monorepo/compare/service-a-0.1.0-dev...service-a-0.1.1) (2022-02-04)
 
 
