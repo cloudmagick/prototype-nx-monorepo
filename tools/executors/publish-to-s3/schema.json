@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "localPath": {
+      "type": "string",
+      "description": "Local path to directory containing items to publish to S3"
+    },
+    "bucket": {
+      "type": "string",
+      "description": "S3 Bucket Name"
+    },
+    "prefix": {
+      "type": "string",
+      "description": "Prefix added to all published items"
+    },
+    "region": {
+      "type": "string",
+      "description": "Region to use when performing API operations (NOTE: S3 Buckets are global, but interaction with S3 API is region-dependent)",
+      "default": "us-east-1"
+    },
+    "organizationId": {
+      "type": "string",
+      "description": "If added, this will add a bucket policy that allows read access from other accounts in the organization (NOTE: This is useful for multi-environment deployments)"
+    }
+  },
+  "required": ["localPath", "bucket", "prefix", "region"]
+}

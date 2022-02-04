@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "title": "Create a Carrier Library for Nx",
+  "$id": "NxBasicTypescriptLibrary",
+  "title": "Create a Typescript Library",
   "type": "object",
   "properties": {
     "name": {
@@ -30,6 +31,11 @@
       "enum": ["jest", "none"],
       "description": "Test runner to use for unit tests",
       "default": "jest"
+    },
+    "testsDirectory": {
+      "type": "string",
+      "description": "Will creates directory tests folder at root of projects",
+      "default": "tests"
     },
     "tags": {
       "type": "string",
@@ -121,6 +127,39 @@
     "skipTypeCheck": {
       "type": "boolean",
       "description": "Whether to skip TypeScript type checking for SWC compiler.",
+      "default": false
+    },
+    "syncVersions": {
+      "description": "Lock/sync versions between packages",
+      "type": "boolean",
+      "default": false
+    },
+    "projects": {
+      "description": "Which projects should be versioned independently",
+      "type": "array"
+    },
+    "useSemver": {
+      "description": "Should the project be installed with Semantic Versioning",
+      "type": "boolean",
+      "default": true
+    },
+    "baseBranch": {
+      "description": "Configure base branch",
+      "type": "string"
+    },
+    "commitMessageFormat": {
+      "description": "A string to be used to format the auto-generated release commit message.",
+      "type": "string",
+      "default": "chore(${projectName}): release version ${version}"
+    },
+    "enforceConventionalCommits": {
+      "description": "Install & configure commitlint and husky.",
+      "type": "boolean",
+      "default": true
+    },
+    "skipInstall": {
+      "description": "Skip install dependencies",
+      "type": "boolean",
       "default": false
     }
   },

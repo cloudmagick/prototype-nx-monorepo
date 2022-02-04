@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "publish-to-s3": {
+      "implementation": "./index",
+      "schema": "./schema.json",
+      "description": "Publishes items to S3"
+    }
+  }
+}

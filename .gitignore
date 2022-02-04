@@ -40,3 +40,7 @@ Thumbs.db
 
 # npmrc config
 .npmrc
+
+# cdk
+cdk.out
+.cdk.staging.out

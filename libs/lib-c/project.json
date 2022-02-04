@@ -32,7 +32,7 @@
       "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/lib-c",
+        "outputPath": "dist/packages/lib-c",
         "tsConfig": "libs/lib-c/tsconfig.lib.json",
         "packageJson": "libs/lib-c/package.json",
         "main": "libs/lib-c/src/index.ts",

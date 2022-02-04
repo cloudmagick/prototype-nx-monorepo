@@ -4,13 +4,14 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:swc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "outputPath": "dist/services/service-a",
-        "main": "services/service-a/src/index.ts",
-        "tsConfig": "services/service-a/tsconfig.app.json",
-        "assets": ["services/service-a/*.md"]
+        "commands": [
+          {
+            "command": "cd services/service-a && npx webpack -c webpack.config.js -o ../../dist/services/service-a",
+            "forwardAllArgs": false
+          }
+        ]
       }
     },
     "lint": {
@@ -32,6 +33,26 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "commitMessageFormat": "chore(${projectName}): release version ${version}"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "aws --region ${args.region} s3 sync dist/services/service-a s3://${args.bucket}/service-a/${version}"
+          }
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "cd services/service-a/infra && cdk deploy -c assetsPath=../../../dist/services/service-a"
+          }
+        ]
       }
     }
   },

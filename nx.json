@@ -1,6 +1,6 @@
 {
   "extends": "@nrwl/workspace/presets/core.json",
-  "npmScope": "prototype-nx",
+  "npmScope": "cloudmagick",
   "affected": {
     "defaultBase": "main"
   },
@@ -32,6 +32,12 @@
       {
         "target": "version",
         "projects": "dependencies"
+      }
+    ],
+    "deploy": [
+      {
+        "target": "build",
+        "projects": "self"
       }
     ]
   },

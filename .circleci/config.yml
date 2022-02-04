@@ -2,17 +2,17 @@
 version: 2.1
 
 jobs:
-  release:
+  build_test_release:
     docker:
       - image: brutalsimplicity/cicd-container:v1.0.0
     steps:
       - checkout
-      - run:
+      - run: &assume_role
           name: Generate Assumed Role Credentials
           command: |
             mkdir -p /tmp/workspace/.secrets
             aws-assume --role $DEPLOYMENT_ROLE -e >> /tmp/workspace/.secrets/.env
-      - run:
+      - run: &build
           name: Build
           command: |
             $(cat /tmp/workspace/.secrets/.env)
@@ -23,23 +23,46 @@ jobs:
           command: |
             $(cat /tmp/workspace/.secrets/.env)
             npm run test
-      - add_ssh_keys:
-          fingerprints:
-            - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
+      - when:
+          condition:
+            equal: [main, << pipeline.git.branch >>]
+          steps:
+            - add_ssh_keys:
+                fingerprints:
+                  - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
+            - run:
+                name: Configure Git
+                command: |
+                  git config --global user.name "circleci-deployuser"
+                  git config --global user.email "circleci-deployuser@noreply.cloudmagick.com"
+            - run:
+                name: Release
+                command: |
+                  $(cat /tmp/workspace/.secrets/.env)
+                  npm run release
+  deploy:
+    docker:
+      - image: brutalsimplicity/cicd-container:v1.0.0
+    steps:
+      - checkout
+      - run: *assume_role
+      - run: *build
       - run:
-          name: Configure Git
-          command: |
-            git config --global user.name "circleci-deployuser"
-            git config --global user.email "kory.taborn@gmail.com"
-      - run:
-          name: Release
+          name: Deploy
           command: |
             $(cat /tmp/workspace/.secrets/.env)
-            npm run release
+            npm run deploy
 
 workflows:
-  Release:
+  Build_Test:
     jobs:
-      - release:
+      - build_test_release:
+          name: Build and Test Project
+          context: cloudmagick
+
+      - build_test_release:
           name: Build, Test, and Release Project
           context: cloudmagick
+          filters:
+            branches:
+              only: main
