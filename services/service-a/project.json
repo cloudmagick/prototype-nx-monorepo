@@ -40,18 +40,7 @@
     "tagForDeployment": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": [
-          {
-            "command": "echo '${projectName}' >> service-a.tmp"
-          },
-          {
-            "command": "echo '${version}' >> service-a.tmp"
-          },
-          {
-            "command": "echo '${args.deployEnvironment}' >> service-a.tmp"
-          }
-        ],
-        "parallel": false
+        "command": "git tag ${project}-${version}+$DEPLOY_ENVIRONMENT && git push --tags"
       }
     },
     "publish": {

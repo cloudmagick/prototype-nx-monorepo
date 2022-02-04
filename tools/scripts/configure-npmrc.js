@@ -97,7 +97,7 @@ const main = () => {
     fs.readFileSync('package.json', { encoding: 'utf8' }),
   );
 
-  const npmrcConfig = packageJson.config['configure-npmrc'];
+  const npmrcConfig = packageJson.config?.['configure-npmrc'];
   if (!npmrcConfig) {
     return;
   }

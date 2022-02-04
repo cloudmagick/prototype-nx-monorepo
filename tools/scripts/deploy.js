@@ -1,51 +1,13 @@
-const child = require('child_process');
+const { EOL } = require('os');
 const { exit } = require('process');
-
-const tagParseRegex =
-  /^(?<service>.+)[-.+:](?<tag>v\d+\.\d+\.\d+)[-.+:]*(?<suffix>.*$)/;
-const getTagParts = (tag) => {
-  const match = tag.match(tagParseRegex);
-  if (match) {
-    return {
-      service: match.groups.service,
-      tag: match.groups.tag,
-      suffix: match.groups.suffix,
-    };
-  }
-};
-
-const runCommand = async (command) => {
-  const promise = new Promise((resolve, reject) => {
-    const proc = child.exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      resolve(stdout);
-    });
-    proc.stdout.pipe(process.stdout);
-    proc.stderr.pipe(process.stderr);
-  });
-  try {
-    const result = await promise;
-    return result.toString('utf8');
-  } catch {
-    exit(1);
-  }
-};
+const { getTagParts, runCommand } = require('./utils');
 
 const main = async () => {
   const isCi = process.env['CI'];
   const gitTag = process.env['GIT_TAG'];
-  const namespace = process.env['NAMESPACE']?.toLowerCase();
 
   if (!isCi) {
     console.error('ERROR: this commmand should only be run during CI/CD');
-    exit(1);
-  }
-
-  if (!namespace) {
-    console.error('ERROR: no NAMESPACE is set for the environment');
     exit(1);
   }
 
@@ -53,6 +15,7 @@ const main = async () => {
     console.error('ERROR: no GIT_TAG is set for the environment');
     exit(1);
   }
+
   const parts = getTagParts(gitTag);
   if (!parts) {
     console.error(
@@ -61,12 +24,37 @@ const main = async () => {
     exit(1);
   }
 
-  const { service, tag, suffix } = parts;
+  const packageJson = JSON.parse(
+    fs.readFileSync('package.json', { encoding: 'utf8' }),
+  );
 
-  const cdkDeployCommand = `nx run ${service}:deploy --require-approval=never --context namespace=${namespace}`;
+  const deployEnvironments = packageJson.config?.deployEnvironments;
+  if (!deployEnvironments) {
+    console.error(`ERROR: No deploy environments have been configured.`);
+    exit(1);
+  }
+
+  const { service, version, suffix } = parts;
+
+  const environmentKeys = Object.keys(deployEnvironments);
+  const deployEnvironment = environmentKeys.find((key) => suffix.contains(key));
+  if (!deployEnvironment) {
+    console.warn(
+      [
+        'WARNING: Tag suffix did not match any deployment environments',
+        `[tag: ${gitTag} suffix: ${suffix}, environments: `,
+        environmentKeys.join(','),
+        `${EOL}Skipping deployment...`,
+      ].join(''),
+    );
+    exit(0);
+  }
+
+  const cdkDeployCommand = `nx run ${service}:deploy --require-approval=never --context namespace=${deployEnvironment}`;
   await runCommand(cdkDeployCommand);
 
-  const
+  const setLatestTagForEnvironmentCommand = `git tag ${service}-${deployEnvironment} && git push --tags`;
+  await runCommand(setLatestTagForEnvironmentCommand);
 };
 
 main();
