@@ -2,10 +2,9 @@ const child = require('child_process');
 const { exit } = require('process');
 
 const tagParseRegex =
-  /^(?<service>.+)[-.+:](?<tag>v\d\.\d\.\d)[^a-zA-Z0-9]*(?<suffix>.*$)/;
+  /^(?<service>.+)[-.+:](?<tag>v\d+\.\d+\.\d+)[-.+:]*(?<suffix>.*$)/;
 const getTagParts = (tag) => {
   const match = tag.match(tagParseRegex);
-  console.log(match);
   if (match) {
     return {
       service: match.groups.service,
@@ -36,22 +35,38 @@ const runCommand = async (command) => {
 };
 
 const main = async () => {
+  const isCi = process.env['CI'];
   const gitTag = process.env['GIT_TAG'];
+  const namespace = process.env['NAMESPACE']?.toLowerCase();
+
+  if (!isCi) {
+    console.error('ERROR: this commmand should only be run during CI/CD');
+    exit(1);
+  }
+
+  if (!namespace) {
+    console.error('ERROR: no NAMESPACE is set for the environment');
+    exit(1);
+  }
+
   if (!gitTag) {
-    console.log('ERROR: no GIT_TAG is set for the environment');
+    console.error('ERROR: no GIT_TAG is set for the environment');
     exit(1);
   }
   const parts = getTagParts(gitTag);
-  console.log(parts);
   if (!parts) {
-    console.log(`ERROR: could not parse service to deploy for tag (${gitTag})`);
+    console.error(
+      `ERROR: could not parse service to deploy for tag (${gitTag})`,
+    );
     exit(1);
   }
 
   const { service, tag, suffix } = parts;
 
-  const cdkDeployCommand = `nx run ${service}:deploy --require-approval=never`;
+  const cdkDeployCommand = `nx run ${service}:deploy --require-approval=never --context namespace=${namespace}`;
   await runCommand(cdkDeployCommand);
+
+  const
 };
 
 main();

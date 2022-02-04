@@ -54,7 +54,7 @@
       "options": {
         "commitMessageFormat": "chore(${projectName}): release version ${version}",
         "baseBranch": "main",
-        "postTargets": ["lib-a:package", "lib-a:publish"]
+        "postTargets": ["lib-a:package"]
       }
     }
   },

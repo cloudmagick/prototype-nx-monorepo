@@ -42,13 +42,19 @@
       "options": {
         "commands": [
           {
-            "command": "echo '${projectName}' >> service-a.tmp"
+            "command": "echo ${projectName}"
           },
           {
-            "command": "echo '${version}' >> service-a.tmp"
+            "command": "echo ${version}"
           },
           {
-            "command": "echo '${args.deployEnvironment}' >> service-a.tmp"
+            "command": "echo ${args.deployEnvironment}"
+          },
+          {
+            "command": "git tag ${projectName}-${version}-${args.deployEnvironment}"
+          },
+          {
+            "command": "git push --tags"
           }
         ],
         "parallel": false
