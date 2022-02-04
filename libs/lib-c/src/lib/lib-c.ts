@@ -3,9 +3,8 @@ import { libA } from '@cloudmagick/lib-a';
 import { libB } from '@cloudmagick/lib-b';
 import h from 'highland';
 
-export function libC() {
+export function libC(s3: S3) {
   console.log([libA(), libB()]);
-  const s3 = new S3();
   return h(
     s3
       .listBuckets()

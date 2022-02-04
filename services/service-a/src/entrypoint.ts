@@ -2,7 +2,9 @@ import { Context } from 'aws-lambda';
 import { serviceA } from './service/service-a';
 import h from 'highland';
 import _ from 'lodash';
+import { S3 } from 'aws-sdk';
 
+const s3 = new S3();
 export async function handler(event: unknown, context: Context) {
   console.log('Lambda Invoked Successfully!');
   console.log('Lambda Event', event);
@@ -13,7 +15,7 @@ export async function handler(event: unknown, context: Context) {
   _([4, 5, 6]).forEach((x) => {
     console.log(x);
   });
-  return serviceA()
+  return serviceA(s3)
     .tap((bucket) => {
       console.log('Name: ', bucket.Name);
       console.log('CreatedAt: ', bucket.CreationDate);
