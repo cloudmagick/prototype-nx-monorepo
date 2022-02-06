@@ -122,7 +122,6 @@ workflows:
           requires:
             - Generate AWS Credentials
           name: Deploy << pipeline.git.tag >>
-          context: cloudmagick
           filters:
             branches:
               ignore: /.*/
