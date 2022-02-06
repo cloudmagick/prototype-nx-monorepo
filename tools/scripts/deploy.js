@@ -59,9 +59,9 @@ const main = async () => {
   const cdkDeployCommand = `nx run ${service}:deploy --require-approval=never --context namespace=${deployEnvironment}`;
   await runCommand(cdkDeployCommand);
 
-  const environmentTag = `${service}-${deployEnvironment}`;
+  const environmentTag = `${service}-latest+${deployEnvironment}`;
   const removeLatestEnvironmentTagCommand = `git push --delete origin ${environmentTag} && git tag -d ${environmentTag} || true`;
-  const setLatestTagForEnvironmentCommand = `git tag ${service}-${deployEnvironment} && git push --tags`;
+  const setLatestTagForEnvironmentCommand = `git tag ${environmentTag} && git push --tags`;
   await runCommand(removeLatestEnvironmentTagCommand);
   await runCommand(setLatestTagForEnvironmentCommand);
 };
