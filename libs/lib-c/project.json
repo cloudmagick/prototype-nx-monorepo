@@ -52,7 +52,7 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
-        "commitMessageFormat": "chore(${projectName}): release version ${version}",
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip-ci]",
         "postTargets": ["lib-c:package"],
         "versionTagPrefix": "${target}-v"
       }
