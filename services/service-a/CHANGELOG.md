@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/cloudmagick/prototype-nx-monorepo/compare/service-a-v0.1.0...service-a-v0.1.1) (2022-02-06)
+
+
+### Bug Fixes
+
+* **ci:** test ([50f4ee6](https://github.com/cloudmagick/prototype-nx-monorepo/commit/50f4ee6cf62949666770c2246e2aea6641bc8bff))
+
+
+
 # 0.1.0 (2022-02-06)
 
 
