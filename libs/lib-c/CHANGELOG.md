@@ -34,6 +34,22 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 
 
+# 0.1.0 (2022-02-06)
+
+
+### Bug Fixes
+
+* **lib-c:** fixes tests ([611de71](https://github.com/cloudmagick/prototype-nx-monorepo/commit/611de71e333edfea31f807b00eacf57a4cc86a68))
+
+
+### Features
+
+* adds service and updates docker ci build ([4c3ea7f](https://github.com/cloudmagick/prototype-nx-monorepo/commit/4c3ea7f5e9b5bc02bb3188f5c2e9550151b1afa4))
+* **cdk:** adds cdk ([db0da44](https://github.com/cloudmagick/prototype-nx-monorepo/commit/db0da442be547cbc05059eb2c6d7b3313245e8a3))
+* initial commit ([375e0c3](https://github.com/cloudmagick/prototype-nx-monorepo/commit/375e0c3faadd165819a5272d760a2dec21f5bc00))
+
+
+
 ## [0.1.5](https://github/cloudmagick/prototype-nx-monorepo/compare/lib-c-v0.1.4...lib-c-v0.1.5) (2022-02-06)
 
 
