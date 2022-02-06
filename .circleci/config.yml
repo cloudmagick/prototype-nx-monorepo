@@ -15,9 +15,10 @@ jobs:
           command: |
             mkdir -p /tmp/workspace/.secrets
             aws-assume --role $DEPLOYMENT_ROLE --configure -e >> /tmp/workspace/.secrets/.env
-            cat ~/.aws/config
-            cat ~/.aws/credentials
-            aws s3 ls
+      - run:
+          name: Verify Credentials
+          command: |
+            aws sts get-caller-identity
       - run: &build
           name: Build
           command: |
