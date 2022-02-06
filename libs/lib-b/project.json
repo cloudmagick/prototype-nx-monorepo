@@ -39,10 +39,22 @@
         "assets": ["libs/lib-b/*.md"]
       }
     },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/packages/lib-a"
+          }
+        ]
+      }
+    },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
-        "commitMessageFormat": "chore(${projectName}): release version ${version}"
+        "commitMessageFormat": "chore(${projectName}): release version ${version}",
+        "versionTagPrefix": "${target}-v",
+        "postTargets": ["lib-b:package"]
       }
     }
   },

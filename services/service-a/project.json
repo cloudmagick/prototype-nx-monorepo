@@ -29,28 +29,28 @@
         "passWithNoTests": true
       }
     },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/packages/lib-a"
+          }
+        ]
+      }
+    },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
         "commitMessageFormat": "chore(${projectName}): release version ${version}",
-        "baseBranch": "main",
-        "postTargets": ["service-a:tagForRelease"]
+        "versionTagPrefix": "${target}-v",
+        "postTargets": ["tagForRelease:service-a"]
       }
     },
     "tagForRelease": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "git tag ${project}-${version}+$RELEASE_TO && git push --tags"
-      }
-    },
-    "publish": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "aws --region ${args.region} s3 sync dist/services/service-a s3://${args.bucket}/service-a/${version}"
-          }
-        ]
       }
     },
     "deploy": {
