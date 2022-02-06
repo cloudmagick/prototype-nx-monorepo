@@ -1,14 +1,15 @@
 import { Context } from 'aws-lambda';
-import { serviceA } from './service/service-a';
+import { S3 } from 'aws-sdk';
 import h from 'highland';
 import _ from 'lodash';
-import { S3 } from 'aws-sdk';
+import { serviceA } from './service/service-a';
 
 const s3 = new S3();
 export async function handler(event: unknown, context: Context) {
   console.log('Lambda Invoked Successfully!');
   console.log('Lambda Event', event);
   console.log('Lambda Context', context);
+  console.log('Test');
   h([1, 2, 3]).each((x) => {
     console.log(x);
   });
