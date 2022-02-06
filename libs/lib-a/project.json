@@ -53,8 +53,8 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "commitMessageFormat": "chore(${projectName}): release version ${version}",
-        "postTargets": ["lib-a:package"],
-        "versionTagPrefix": "${target}-v"
+        "versionTagPrefix": "${target}-v",
+        "postTargets": ["lib-a:package"]
       }
     }
   },
