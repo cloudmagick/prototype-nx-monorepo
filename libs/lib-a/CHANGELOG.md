@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/cloudmagick/prototype-nx-monorepo/compare/lib-a-0.1.2...lib-a-0.1.3) (2022-02-06)
+
+
+
 ## [0.1.2](https://github.com/cloudmagick/prototype-nx-monorepo/compare/lib-a-0.1.1...lib-a-0.1.2) (2022-02-06)
 
 
