@@ -2,23 +2,40 @@
 version: 2.1
 
 jobs:
-  build_test_release:
+  assume_role:
     docker:
       - image: brutalsimplicity/cicd-container:v1.0.0
     steps:
-      - checkout
-      - run: &assume_role
-          name: Setup Assumed Role
+      - run:
+          name: Generate Credentials
 
           # Certain AWS tools may require environment variables are set. This can be done
           # with `$(cat /tmp/workspaces/.secrets/.env)`
           command: |
             mkdir -p /tmp/workspace/.secrets
             aws-assume --role $DEPLOYMENT_ROLE --configure -e >> /tmp/workspace/.secrets/.env
+            cp -r ~/.aws /tmp/workspace/.aws
       - run:
           name: Verify Credentials
           command: |
             aws sts get-caller-identity
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - .secrets
+            - .aws
+
+  build_test_release:
+    docker:
+      - image: brutalsimplicity/cicd-container:v1.0.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: &configure_role
+          name: Configure AWS Role
+          command: |
+            cp -r /tmp/workspace/.aws ~/.aws
       - run: &build
           name: Build
           command: |
@@ -54,7 +71,9 @@ jobs:
           fingerprints:
             - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
       - checkout
-      - run: *assume_role
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: *configure_role
       - run:
           name: Deploy
           command: |
@@ -64,23 +83,40 @@ jobs:
 workflows:
   Semantic_Version_Release:
     jobs:
-      - build_test_release:
-          name: Build and Test Project
+      - assume_role:
+          name: Generate AWS Credentials
           context: cloudmagick
+
+      - build_test_release:
+          requires:
+            - Generate AWS Credentials
+          name: Build and Test Project
           filters:
             branches:
               ignore: main
 
       - build_test_release:
+          requires:
+            - Generate AWS Credentials
           name: Build, Test, and Release Project
-          context: cloudmagick
           filters:
             branches:
               only: main
 
   Semantic_Version_Deploy:
     jobs:
+      - assume_role:
+          name: Generate AWS Credentials
+          context: cloudmagick
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*\d+\.\d+\.\d+[-+_.][a-z0-9]+.*/
+
       - deploy:
+          requires:
+            - Generate AWS Credentials
           name: Deploy << pipeline.git.tag >>
           context: cloudmagick
           filters:

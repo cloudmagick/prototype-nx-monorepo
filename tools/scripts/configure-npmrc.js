@@ -1,7 +1,6 @@
 const fs = require('fs');
 const child = require('child_process');
 const os = require('os');
-const { inspect } = require('util');
 const { exit } = require('process');
 
 const validateNpmrcConfig = (config) => {
