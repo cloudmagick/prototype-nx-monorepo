@@ -20,6 +20,15 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 
 
+# 0.1.0 (2022-02-06)
+
+
+### Features
+
+* initial commit ([375e0c3](https://github.com/cloudmagick/prototype-nx-monorepo/commit/375e0c3faadd165819a5272d760a2dec21f5bc00))
+
+
+
 ## [0.1.5](https://github/cloudmagick/prototype-nx-monorepo/compare/lib-b-v0.1.4...lib-b-v0.1.5) (2022-02-06)
 
 
