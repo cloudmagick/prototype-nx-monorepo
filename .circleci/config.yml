@@ -36,6 +36,10 @@ jobs:
           name: Configure AWS Role
           command: |
             cp -r /tmp/workspace/.aws ~/.aws
+      - run: &install
+          name: Install
+          command: |
+            npm ci
       - run: &build
           name: Build
           command: |
@@ -74,6 +78,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: *configure_role
+      - run: *install
       - run:
           name: Deploy
           command: |
