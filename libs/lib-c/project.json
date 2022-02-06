@@ -44,9 +44,13 @@
       "options": {
         "commands": [
           {
-            "command": "npm publish dist/packages/lib-a"
+            "command": "nx run lib-c:package"
+          },
+          {
+            "command": "npm publish dist/packages/lib-c"
           }
-        ]
+        ],
+        "parallel": false
       }
     },
     "version": {

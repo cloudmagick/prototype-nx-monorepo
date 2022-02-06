@@ -41,13 +41,15 @@
     },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "npm publish dist/packages/lib-a"
-          }
-        ]
-      }
+      "commands": [
+        {
+          "command": "nx run lib-b:package"
+        },
+        {
+          "command": "npm publish dist/packages/lib-b"
+        }
+      ],
+      "parallel": false
     },
     "version": {
       "executor": "@jscutlery/semver:version",

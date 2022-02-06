@@ -34,12 +34,6 @@
         "projects": "dependencies"
       }
     ],
-    "publish": [
-      {
-        "target": "package",
-        "projects": "self"
-      }
-    ],
     "deploy": [
       {
         "target": "build",
