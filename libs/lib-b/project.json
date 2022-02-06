@@ -41,15 +41,9 @@
     },
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
-      "commands": [
-        {
-          "command": "nx run lib-b:package"
-        },
-        {
-          "command": "npm publish dist/packages/lib-b"
-        }
-      ],
-      "parallel": false
+      "options": {
+        "command": "nx run lib-b:package && npm publish dist/packages/lib-b"
+      }
     },
     "version": {
       "executor": "@jscutlery/semver:version",

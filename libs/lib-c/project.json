@@ -42,15 +42,7 @@
     "publish": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": [
-          {
-            "command": "nx run lib-c:package"
-          },
-          {
-            "command": "npm publish dist/packages/lib-c"
-          }
-        ],
-        "parallel": false
+        "command": "nx run lib-c:package && npm publish dist/packages/lib-c"
       }
     },
     "version": {
