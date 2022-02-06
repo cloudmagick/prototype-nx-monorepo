@@ -8,25 +8,27 @@ jobs:
     steps:
       - checkout
       - run: &assume_role
-          name: Generate Assumed Role Credentials
+          name: Setup Assumed Role
+
+          # Certain AWS tools may require environment variables are set. This can be done
+          # with `$(cat /tmp/workspaces/.secrets/.env)`
           command: |
             mkdir -p /tmp/workspace/.secrets
-            aws-assume --role $DEPLOYMENT_ROLE -e >> /tmp/workspace/.secrets/.env
+            aws-assume --role $DEPLOYMENT_ROLE --configure -e >> /tmp/workspace/.secrets/.env
       - run: &build
           name: Build
           command: |
-            $(cat /tmp/workspace/.secrets/.env)
             npm ci
             npm run build
       - run:
           name: Test
           command: |
-            $(cat /tmp/workspace/.secrets/.env)
             npm run test
       - when:
           condition:
             equal: [main, << pipeline.git.branch >>]
           steps:
+            # This is how you use a custom SSH key that allows git writes to a repository
             - add_ssh_keys:
                 fingerprints:
                   - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
@@ -38,7 +40,6 @@ jobs:
             - run:
                 name: Release
                 command: |
-                  $(cat /tmp/workspace/.secrets/.env)
                   RELEASE_TO=dev npm run release
 
   deploy:
@@ -50,7 +51,6 @@ jobs:
             - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
       - checkout
       - run: *assume_role
-      - run: *build
       - run:
           name: Deploy
           command: |
