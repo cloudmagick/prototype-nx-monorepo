@@ -45,6 +45,9 @@ jobs:
     docker:
       - image: brutalsimplicity/cicd-container:v1.0.0
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - a6:07:c3:9c:10:b2:9b:fb:f9:99:54:97:07:1f:99:05
       - checkout
       - run: *assume_role
       - run: *build
