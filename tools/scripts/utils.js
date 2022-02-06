@@ -1,5 +1,6 @@
 const child = require('child_process');
 const { exit } = require('process');
+const { inspect } = require('util');
 
 const tagParseRegex =
   /^(?<service>.+)[-.+:](?<version>\d+\.\d+\.\d+)[-.+:]*(?<suffix>.*$)/;
