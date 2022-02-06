@@ -15,6 +15,7 @@ jobs:
           command: |
             mkdir -p /tmp/workspace/.secrets
             aws-assume --role $DEPLOYMENT_ROLE --configure -e >> /tmp/workspace/.secrets/.env
+            aws s3 ls
       - run: &build
           name: Build
           command: |
