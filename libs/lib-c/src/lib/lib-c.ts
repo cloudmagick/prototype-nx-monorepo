@@ -1,6 +1,6 @@
-import { S3 } from 'aws-sdk';
 import { libA } from '@cloudmagick/lib-a';
 import { libB } from '@cloudmagick/lib-b';
+import { S3 } from 'aws-sdk';
 import h from 'highland';
 
 export function libC(s3: S3) {

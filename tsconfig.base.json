@@ -19,7 +19,13 @@
       "@cloudmagick/lib-a": ["libs/lib-a/src/index.ts"],
       "@cloudmagick/lib-b": ["libs/lib-b/src/index.ts"],
       "@cloudmagick/lib-c": ["libs/lib-c/src/index.ts"]
-    }
+    },
+    "plugins": [
+      {
+        "transform": "ts-auto-mock/transformer",
+        "cacheBetweenTests": false
+      }
+    ]
   },
   "exclude": ["node_modules", "tmp"]
 }
