@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/cloudmagick/prototype-nx-monorepo/compare/lib-c-0.1.1...lib-c-0.2.0) (2022-02-07)
+
+
+### Bug Fixes
+
+* add strict true and fix errors ([ddc4a51](https://github.com/cloudmagick/prototype-nx-monorepo/commit/ddc4a51153d46b01ebd01ed7b8a27de8ce12093c))
+
+
+### Features
+
+* prints s3 objects for each bucket ([53059c1](https://github.com/cloudmagick/prototype-nx-monorepo/commit/53059c1a1818abce32d7f6661b0756f6d8905260))
+
+
+
 ## [0.1.1](https://github.com/cloudmagick/prototype-nx-monorepo/compare/lib-c-0.1.0...lib-c-0.1.1) (2022-02-06)
 
 
