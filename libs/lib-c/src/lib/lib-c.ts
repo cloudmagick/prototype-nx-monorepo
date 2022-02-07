@@ -16,7 +16,7 @@ export function libC(s3: S3) {
       h(
         s3
           .listObjectsV2({
-            Bucket: bucket.Name,
+            Bucket: bucket.Name as string,
           })
           .promise()
           .then((o) => ({ bucket: o.Name, objects: o.Contents ?? [] })),
