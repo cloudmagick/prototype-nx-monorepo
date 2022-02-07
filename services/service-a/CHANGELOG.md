@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/cloudmagick/prototype-nx-monorepo/compare/service-a-0.1.0+dev...service-a-0.2.0) (2022-02-07)
+
+
+### Features
+
+* prints s3 objects for each bucket ([53059c1](https://github.com/cloudmagick/prototype-nx-monorepo/commit/53059c1a1818abce32d7f6661b0756f6d8905260))
+
+
+
 # 0.1.0 (2022-02-06)
 
 
