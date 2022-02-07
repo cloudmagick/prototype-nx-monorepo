@@ -17,10 +17,10 @@ export async function handler(event: unknown, context: Context) {
     console.log(x);
   });
   return serviceA(s3)
-    .tap((bucket) => {
-      console.log('Name: ', bucket.Name);
-      console.log('CreatedAt: ', bucket.CreationDate);
-      console.log('Extra Info: ', bucket.extraInfo);
+    .tap((res) => {
+      console.log('Name: ', res.bucket);
+      console.log('Content: ', res.objects);
+      console.log('Extra Info: ', res.extraInfo);
       throw new Error('An error occurred');
     })
     .collect()
