@@ -7,7 +7,7 @@
     "build": "nx run-many --target=build --all --exclude=release-container",
     "test": "nx run-many --target=test --all",
     "preinstall": "npm run npmrc",
-    "release": "nx run-many --target=version --all --noVerify --push",
+    "release": "nx run-many --target=version --all --parallel=1 --noVerify --push",
     "npmrc": "node tools/scripts/configure-npmrc.js",
     "ci:deploy": "node tools/scripts/deploy.js"
   },
