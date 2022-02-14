@@ -1,11 +1,8 @@
-import { libA } from '@cloudmagick/lib-a';
-import { libB } from '@cloudmagick/lib-b';
 import { S3 } from 'aws-sdk';
-import h from 'highland';
+import stream from 'highland';
 
 export function libC(s3: S3) {
-  console.log([libA(), libB()]);
-  return h(
+  return stream(
     s3
       .listBuckets()
       .promise()
@@ -13,16 +10,19 @@ export function libC(s3: S3) {
   )
     .flatten()
     .map((bucket) =>
-      h(
+      stream(
         s3
           .listObjectsV2({
             Bucket: bucket.Name as string,
           })
           .promise()
-          .then((o) => ({ bucket: o.Name, objects: o.Contents ?? [] })),
+          .then((o) => ({
+            bucket: o.Name as string,
+            objects: o.Contents ?? [],
+          })),
       ),
     )
-    .flatten()
+    .parallel(5)
     .map((o) => ({
       ...o,
       extraInfo: true,

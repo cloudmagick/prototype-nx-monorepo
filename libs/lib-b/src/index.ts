@@ -1,1 +1,2 @@
-export * from './lib/lib-b';
+export * from './lib/cloudformation';
+export * from './lib/iam';
