@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/cloudmagick/prototype-nx-monorepo/compare/lib-c-0.2.0...lib-c-0.3.0) (2022-02-14)
+
+
+### Features
+
+* adds some new updates testing out highland and rxjs streaming libraries ([8fcca59](https://github.com/cloudmagick/prototype-nx-monorepo/commit/8fcca5984b049ed7f62bc964497e1ffb6264a007))
+
+
+
 # [0.2.0](https://github.com/cloudmagick/prototype-nx-monorepo/compare/lib-c-0.1.1...lib-c-0.2.0) (2022-02-07)
 
 
